@@ -173,6 +173,7 @@
     <Compile Include="Inventory.cs">
       <DependentUpon>NodeOrders.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CityCDCount.cs" />
     <Compile Include="NodeOrders.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,7 +270,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
