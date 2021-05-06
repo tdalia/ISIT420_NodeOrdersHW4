@@ -2,11 +2,11 @@
 var apiUrl = 'https://localhost:44317/api/values/';
 
 // Populate stores combo box
-getStoreByCity();
-getEmployees();
+init();
 
 function init() {
     getStoreByCity();
+    getEmployees();
 }
 
 function getStoreByCity() {
@@ -43,7 +43,37 @@ function getEmployees() {
     });
 };
 
-function getCityInfo() {
-    console.log("Selection City: ", document.getElementById("stores").value);
-}
+function getStoreSales() {
+    var sel = document.getElementById("stores");
+    var storeId = sel.value;
+    var nm = sel.options[sel.selectedIndex].text;
+
+    var text = "";
+
+    $.get(apiUrl + "/salesOfStore/" + storeId, function (data, status) {  // AJAX get
+        text = "Sales of Store located at  " + nm + " is $" + data;
+        $("#ans3").text(text);
+    }).fail(function (err) {
+        text = "Sales of Store located at " + nm + " is $0.";
+        $("#ans3").text(text);
+    });
+};
+
+function getEmployeeSales() {
+
+    var sel = document.getElementById("employee");
+    var empId = sel.value;
+    var empName = sel.options[sel.selectedIndex].text;
+    var text = "";
+
+    $.get(apiUrl + "/salesOfEmployee/" + empId, function (data, status) {  // AJAX get
+        text = "Sales of Employee " + empName + " is $" + data;
+        $("#ans2").text(text);
+    }).fail(function (err) {
+        text = "Sales of Employee " + empName + " is $0";
+        $("#ans2").text(text);
+    });
+};
+
+
 
