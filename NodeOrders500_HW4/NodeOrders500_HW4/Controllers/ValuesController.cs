@@ -62,19 +62,42 @@ namespace NodeOrders500_HW4.Controllers
             return employees;
         }
 
-        // POST api/values
-        public void Post([FromBody] string value)
+        [ActionName("salesOfEmployee")]
+        public IHttpActionResult GetSalesOfEmployee(int id)  // salesPersonId
         {
+            int sales = 0;
+
+            try
+            {
+                sales = (from o in entities.Orders
+                         where o.salesPersonID == id && o.dayPurch <= 365
+                         select o.pricePaid).Sum();
+            } catch
+            {
+                return BadRequest();
+            }
+
+            return Ok(sales);               
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
+        [ActionName("salesOfStore")]
+        public IHttpActionResult GetSalesOfStore(int id)  // storeId
         {
+            int sales = 0;
+
+            try
+            {
+                sales = (from o in entities.Orders
+                         where o.storeID == id && o.dayPurch <= 365
+                         select o.pricePaid).Sum();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok(sales);
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }
