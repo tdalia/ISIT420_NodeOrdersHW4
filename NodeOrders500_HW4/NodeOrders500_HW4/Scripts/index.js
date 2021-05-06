@@ -51,10 +51,10 @@ function getStoreSales() {
     var text = "";
 
     $.get(apiUrl + "/salesOfStore/" + storeId, function (data, status) {  // AJAX get
-        text = "Sales of Store located at  " + nm + " is $" + data;
+        text = "Sales of Store located at  " + nm + " is $" + data + " for the year";
         $("#ans3").text(text);
     }).fail(function (err) {
-        text = "Sales of Store located at " + nm + " is $0.";
+        text = "Sales of Store located at " + nm + " is $0 for the year";
         $("#ans3").text(text);
     });
 };
@@ -67,13 +67,25 @@ function getEmployeeSales() {
     var text = "";
 
     $.get(apiUrl + "/salesOfEmployee/" + empId, function (data, status) {  // AJAX get
-        text = "Sales of Employee " + empName + " is $" + data;
+        text = "Sales of Employee " + empName + " is $" + data + " for the year";
         $("#ans2").text(text);
     }).fail(function (err) {
-        text = "Sales of Employee " + empName + " is $0";
+        text = "Sales of Employee " + empName + " is $0 for the year";
         $("#ans2").text(text);
     });
 };
 
+function getMarkups() {
+    $.getJSON(apiUrl + "/topCDCounts")
+        .done(function (data) {
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $('<li>', { text: "City: " + item.CityName + ", Count: " + item.RowsCount })
+                    .appendTo($('#ans1'));
+            });
+        }).fail(function (err) {
+            $("#ans1Err").text("ERROR: Unexpected error occured.");
+        });
+}
 
 

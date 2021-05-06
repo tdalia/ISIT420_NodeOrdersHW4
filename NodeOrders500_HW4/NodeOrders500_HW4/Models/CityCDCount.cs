@@ -7,16 +7,13 @@ namespace NodeOrders500_HW4.Models
 {
     public class CityCDCount
     {
-        public CityCDCount(string cityName, int cdId, int count)
+        public CityCDCount()
         {
-            CityName = cityName;
-            CDId = cdId;
-            CDCount = count;
+                
         }
+
         public string CityName { get; set; }
 
-        public int CDCount { get; set; }
-
-        public int CDId { get; set; }
+        public int RowsCount { get; set; }
     }
 }

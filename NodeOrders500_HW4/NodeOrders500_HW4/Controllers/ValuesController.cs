@@ -12,28 +12,6 @@ namespace NodeOrders500_HW4.Controllers
     {
         NodeOrders500Entities entities = new NodeOrders500Entities();
 
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            /*
-            List<CDTable> cds = entities.CDTables.Where(c => c.ListPrice > 13).ToList<CDTable>();
-
-            var list = from c in entities.CDTables
-            select new CityCDCount(c.CDname, c.YearReleased, 12);
-
-            List<CityCDCount> list1 = list.ToList();
-            */
-            return new string[] { "value1", "value2" };
-        }
-
-        /*
-        // GET api/values/5
-        public string GetStore(int id)
-        {
-            return "value";
-        }
-        */
-
         // Gets a list of city of stores
         [HttpGet]
         [ActionName("storeByCity")]
@@ -99,5 +77,31 @@ namespace NodeOrders500_HW4.Controllers
             return Ok(sales);
         }
 
+        [ActionName("topCDCounts")]
+        public IHttpActionResult GetTopCDCounts()
+        {
+            var counts = (from o in entities.Orders
+                          where o.pricePaid > 13
+                          group o by o.StoreTable.City into g
+                          select new CityCDCount()
+                          {
+                              CityName = g.Key,
+                              RowsCount = g.Count()
+                          }).OrderBy(t => t.RowsCount);
+
+            return Json(counts);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (entities != null)
+                {
+                    entities.Database.Connection.Close();
+                    entities.Dispose();
+                }
+            }
+        }
     }
 }
